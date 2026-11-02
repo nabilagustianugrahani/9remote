@@ -1,0 +1,48 @@
+name = "9remote"
+main = ".open-next/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+CLOUDFLARE_ACCOUNT_ID = "4431f33e5bb75149135d39b4d4a9fd60"
+TURN_KEY_ID = ""
+BUILD_VERSION = "0.0.0"
+BUILD_TIME = "1970-01-01T00:00:00.000Z"
+ALLOWED_ORIGINS = "https://9remote.878165238.workers.dev,http://localhost:2200"
+MIN_APP_VERSION_ANDROID = "0.0.0"
+MIN_APP_VERSION_IOS = "0.0.0"
+R2_PUBLIC_BASE = ""
+OTA_DEFAULT_CHANNEL = "production"
+
+[[kv_namespaces]]
+binding = "OTA_KV"
+id = "10b719250e0b410caac6a2e1ec87f573"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nineremote-db"
+database_id = "2e62a391-219b-47eb-a1ab-629a89a6c020"
+
+[[ratelimits]]
+name = "LOGIN_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
+[[durable_objects.bindings]]
+name = "SIGNALING_DO"
+class_name = "SignalingDO"
+
+[[migrations]]
+tag = "v1-signaling"
+new_sqlite_classes = ["SignalingDO"]
+
+[triggers]
+crons = ["0 * * * *"]
+
+[observability]
+enabled = true
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+run_worker_first = ["/proxy.html", "/sw-site.js"]
